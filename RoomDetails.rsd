@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>QC</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@RId">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>String</rd:DbType>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>SELECT SiteId, 
+		CASE RoomStatus
+			WHEN 0 THEN 'Operational'
+			ELSE 'At Rest'
+		END AS RoomState,
+		CFU, Particulate05, Particulate5, 
+		CASE Result
+			WHEN 0 THEN 'Pass'
+			WHEN 1 THEN 'Alert'
+			WHEN 2 THEN 'Action'
+		END AS SampleResult,
+		CASE CollectionType
+			WHEN 0 THEN 'Initial'
+			ELSE 'Repeat'
+		END AS TypeOfCollection,
+		CollectionDate
+FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="SiteId">
+        <DataField>SiteId</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="RoomState">
+        <DataField>RoomState</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="CFU">
+        <DataField>CFU</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="Particulate05">
+        <DataField>Particulate05</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="Particulate5">
+        <DataField>Particulate5</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="SampleResult">
+        <DataField>SampleResult</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="TypeOfCollection">
+        <DataField>TypeOfCollection</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="CollectionDate">
+        <DataField>CollectionDate</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>
