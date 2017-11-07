@@ -27,6 +27,10 @@
       <FullPath>P.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>Quarterly-Rooms_Air - SubReport - ByDate.rdl</Name>
+      <FullPath>Quarterly-Rooms_Air - SubReport - ByDate.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>Quarterly-Rooms_Air - SubReport.rdl</Name>
       <FullPath>Quarterly-Rooms_Air - SubReport.rdl</FullPath>
     </ProjectItem>
@@ -39,16 +43,16 @@
       <FullPath>Quarterly-Rooms-Air-Graph.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>RoomByRoomId.rdl</Name>
-      <FullPath>RoomByRoomId.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>Quarterly-Rooms-Air-Graph-ByDate.rdl</Name>
       <FullPath>Quarterly-Rooms-Air-Graph-ByDate.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>Quarterly-Rooms_Air - SubReport - ByDate.rdl</Name>
-      <FullPath>Quarterly-Rooms_Air - SubReport - ByDate.rdl</FullPath>
+      <Name>RoomByRoomId.rdl</Name>
+      <FullPath>RoomByRoomId.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>RoomByRoomIdAndDates.rdl</Name>
+      <FullPath>RoomByRoomIdAndDates.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>
