@@ -54,6 +54,10 @@
       <Name>RoomByRoomIdAndDates.rdl</Name>
       <FullPath>RoomByRoomIdAndDates.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>Gowning Qualified Employees.rdl</Name>
+      <FullPath>Gowning Qualified Employees.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
