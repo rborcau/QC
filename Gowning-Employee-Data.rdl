@@ -287,7 +287,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1847,6 +1846,11 @@
   <ReportParameters>
     <ReportParameter Name="EmployeeId">
       <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>"000000"</Value>
+        </Values>
+      </DefaultValue>
       <Prompt>Employee Id</Prompt>
     </ReportParameter>
   </ReportParameters>

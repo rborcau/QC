@@ -18,17 +18,44 @@
             <Value>=Parameters!Dept.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>IF @Dept = 'ALL'
-	SELECT DISTINCT E.EmployeeId, E.EmployeeName, DATEADD(YEAR, 1, G.QualificationDate) AS ExpirationDate, G.QualificationDate, DATEDIFF(D, GETDATE(), DATEADD(YEAR, 1, G.QualificationDate)) AS DaysLeft, UPPER(E.Department) Department FROM dbo.Employees E
-	INNER JOIN dbo.DataGowningQualification G
-	ON E.EmployeeId = G.EmployeeId
-	ORDER BY E.EmployeeName;
+        <CommandText>DECLARE @Dt DATETIME;
+SET @Dt = GETDATE();
+DECLARE @Tbl TABLE
+(
+	EmployeeId NCHAR(6),
+	EmployeeName NVARCHAR(100),
+	ExpirationDate DATETIME,
+	QualificationDate DATETIME,
+	DaysLeft SMALLINT,
+	Department NVARCHAR(40),
+	Qual BIT
+);
+	INSERT INTO @Tbl(EmployeeId, EmployeeName, Department, Qual)
+	SELECT EmployeeId, EmployeeName, Department, GowningQualification FROM dbo.Employees ORDER BY EmployeeName;
+	
+	UPDATE A
+		SET A.QualificationDate = B.QualificationDate		
+	FROM @Tbl A
+	INNER JOIN (SELECT EmployeeId, MAX(QualificationDate) QualificationDate FROM dbo.DataGowningQualification GROUP BY EmployeeId) B
+	ON A.EmployeeId = B.EmployeeId
+	WHERE A.Qual = 1;
+	UPDATE @Tbl 
+		SET ExpirationDate = DATEADD(YY, 1, QualificationDate)
+	WHERE Qual = 1; 	
+	UPDATE @Tbl 
+		SET DaysLeft = DATEDIFF(D, @Dt, ExpirationDate)
+	WHERE Qual = 1; 
+IF @Dept = 'ALL'
+	SELECT EmployeeId, EmployeeName, ExpirationDate, QualificationDate, DaysLeft, UPPER(Department) Department 
+	FROM @Tbl WHERE Qual = 1
+	ORDER BY EmployeeName;
 ELSE
-	SELECT DISTINCT E.EmployeeId, E.EmployeeName, DATEADD(YEAR, 1, G.QualificationDate) AS ExpirationDate, G.QualificationDate, DATEDIFF(D, GETDATE(), DATEADD(YEAR, 1, G.QualificationDate)) AS DaysLeft, UPPER(E.Department) Department FROM dbo.Employees E
-	INNER JOIN dbo.DataGowningQualification G
-	ON E.EmployeeId = G.EmployeeId
-	WHERE E.Department = @Dept
-	ORDER BY E.EmployeeName;</CommandText>
+	SELECT EmployeeId, EmployeeName, ExpirationDate, QualificationDate, DaysLeft, UPPER(Department) Department 
+	FROM @Tbl 
+	WHERE Qual = 1
+	AND Department = @Dept
+	ORDER BY EmployeeName;
+</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -50,7 +77,7 @@ ELSE
         </Field>
         <Field Name="DaysLeft">
           <DataField>DaysLeft</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Int16</rd:TypeName>
         </Field>
         <Field Name="Department">
           <DataField>Department</DataField>
