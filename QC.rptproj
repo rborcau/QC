@@ -19,6 +19,10 @@
   </DataSets>
   <Reports>
     <ProjectItem>
+      <Name>Gowning-Employee-Data.rdl</Name>
+      <FullPath>Gowning-Employee-Data.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>Gowning-Qualified-Employees.rdl</Name>
       <FullPath>Gowning-Qualified-Employees.rdl</FullPath>
     </ProjectItem>
@@ -59,8 +63,8 @@
       <FullPath>RoomByRoomIdAndDates.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>Gowning-Employee-Data.rdl</Name>
-      <FullPath>Gowning-Employee-Data.rdl</FullPath>
+      <Name>Hood-By-HoodId.rdl</Name>
+      <FullPath>Hood-By-HoodId.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>
