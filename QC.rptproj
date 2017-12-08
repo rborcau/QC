@@ -63,8 +63,12 @@
       <FullPath>RoomByRoomIdAndDates.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>Hood-By-HoodId.rdl</Name>
-      <FullPath>Hood-By-HoodId.rdl</FullPath>
+      <Name>Hood-By-HoodId-And-ScheduledDate.rdl</Name>
+      <FullPath>Hood-By-HoodId-And-ScheduledDate.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Room-By-RoomId-And-ScheduledDate.rdl</Name>
+      <FullPath>Room-By-RoomId-And-ScheduledDate.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

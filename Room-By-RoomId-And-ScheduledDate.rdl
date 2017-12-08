@@ -10,19 +10,22 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="Data">
+    <DataSet Name="DataAir">
       <Query>
         <DataSourceName>DS</DataSourceName>
         <QueryParameters>
-          <QueryParameter Name="@HoodId">
-            <Value>=Parameters!HoodId.Value</Value>
+          <QueryParameter Name="@RoomId">
+            <Value>=Parameters!RoomId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ScheduledDate">
             <Value>=Parameters!ScheduledDate.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@RoomStatus">
+            <Value>=Parameters!RoomStatus.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>dbo.Get_Hood_Data_Air_By_ScheduledDate</CommandText>
+        <CommandText>dbo.Get_Room_Data_Air_By_ScheduledDate</CommandText>
       </Query>
       <Fields>
         <Field Name="Id">
@@ -33,12 +36,12 @@
           <DataField>ImportFK</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="Seq">
+          <DataField>Seq</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SiteIdDescription">
-          <DataField>SiteIdDescription</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="CFU">
@@ -79,43 +82,34 @@
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="DataHoods">
-      <Query>
-        <DataSourceName>DS</DataSourceName>
-        <CommandText>SELECT HoodId FROM dbo.Hoods ORDER BY HoodId;</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="HoodId">
-          <DataField>HoodId</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
     <DataSet Name="DataSurface">
       <Query>
         <DataSourceName>DS</DataSourceName>
         <QueryParameters>
-          <QueryParameter Name="@HoodId">
-            <Value>=Parameters!HoodId.Value</Value>
+          <QueryParameter Name="@RoomId">
+            <Value>=Parameters!RoomId.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@ScheduledDate">
             <Value>=Parameters!ScheduledDate.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@RoomStatus">
+            <Value>=Parameters!RoomStatus.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Get_Hood_Data_Surface_By_ScheduledDate</CommandText>
+        <CommandText>dbo.Get_Room_Data_Surface_By_ScheduledDate</CommandText>
       </Query>
       <Fields>
         <Field Name="Id">
           <DataField>Id</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="Seq">
+          <DataField>Seq</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
         <Field Name="SiteId">
           <DataField>SiteId</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SiteIdDescription">
-          <DataField>SiteIdDescription</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="CFU">
@@ -126,13 +120,13 @@
           <DataField>Result</DataField>
           <rd:TypeName>System.Byte</rd:TypeName>
         </Field>
-        <Field Name="CollectionType">
-          <DataField>CollectionType</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
         <Field Name="CollectionDate">
           <DataField>CollectionDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="CollectionType">
+          <DataField>CollectionType</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="EmployeeId">
           <DataField>EmployeeId</DataField>
@@ -148,6 +142,61 @@
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="DataRooms">
+      <Query>
+        <DataSourceName>DS</DataSourceName>
+        <CommandText>SELECT RoomID, RoomDescription FROM dbo.Rooms ORDER BY RoomId;</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="RoomID">
+          <DataField>RoomID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RoomDescription">
+          <DataField>RoomDescription</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataRoomDetail">
+      <Query>
+        <DataSourceName>DS</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@RoomId">
+            <Value>=Parameters!RoomId.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT ISOClass, RoomDescription, MonitoringFrequency, MonitoringUnit, OffSeasonMonitoringFrequency, OffSeasonMonitoringUnit 
+FROM dbo.Rooms
+WHERE RoomId = @RoomId</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ISOClass">
+          <DataField>ISOClass</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RoomDescription">
+          <DataField>RoomDescription</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MonitoringFrequency">
+          <DataField>MonitoringFrequency</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="MonitoringUnit">
+          <DataField>MonitoringUnit</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OffSeasonMonitoringFrequency">
+          <DataField>OffSeasonMonitoringFrequency</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="OffSeasonMonitoringUnit">
+          <DataField>OffSeasonMonitoringUnit</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -158,9 +207,6 @@
               <TablixColumns>
                 <TablixColumn>
                   <Width>0.75in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>2.5in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.5in</Width>
@@ -224,51 +270,6 @@
                               <Style>Solid</Style>
                               <Width>2pt</Width>
                             </LeftBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox9">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Description</Value>
-                                  <Style>
-                                    <FontFamily>Verdana</FontFamily>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox9</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>2pt</Width>
-                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -547,39 +548,6 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="SiteIdDescription">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!SiteIdDescription.Value</Value>
-                                  <Style>
-                                    <FontFamily>Verdana</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>SiteIdDescription</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="CFU">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -759,7 +727,6 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -772,10 +739,11 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>Data</DataSetName>
-            <Top>0.4in</Top>
+            <DataSetName>DataAir</DataSetName>
+            <Top>0.8in</Top>
+            <Left>1.7in</Left>
             <Height>0.45in</Height>
-            <Width>7.25in</Width>
+            <Width>4.75in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -790,7 +758,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="Air Data"</Value>
+                    <Value>="Air Data " &amp; IIF(First(Fields!Seq.Value, "DataAir") = 1, "First Pass", "Second Pass")</Value>
                     <Style>
                       <FontFamily>Verdana</FontFamily>
                       <FontWeight>Bold</FontWeight>
@@ -803,6 +771,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox21</rd:DefaultName>
+            <Top>0.4in</Top>
             <Left>2in</Left>
             <Height>0.25in</Height>
             <Width>4in</Width>
@@ -824,7 +793,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="Surface Data"</Value>
+                    <Value>="Surface Data "  &amp; IIF(First(Fields!Seq.Value, "DataSurface") = 1, "First Pass", "Second Pass")</Value>
                     <Style>
                       <FontFamily>Verdana</FontFamily>
                       <FontWeight>Bold</FontWeight>
@@ -837,7 +806,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox21</rd:DefaultName>
-            <Top>1in</Top>
+            <Top>1.4in</Top>
             <Left>2in</Left>
             <Height>0.25in</Height>
             <Width>4in</Width>
@@ -857,9 +826,6 @@
               <TablixColumns>
                 <TablixColumn>
                   <Width>0.75in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>2.5in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.5in</Width>
@@ -917,51 +883,6 @@
                               <Style>Solid</Style>
                               <Width>2pt</Width>
                             </LeftBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox31">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Description</Value>
-                                  <Style>
-                                    <FontFamily>Verdana</FontFamily>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox31</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>2pt</Width>
-                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1150,39 +1071,6 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="SiteIdDescription1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!SiteIdDescription.Value</Value>
-                                  <Style>
-                                    <FontFamily>Verdana</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>SiteIdDescription1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="CFU1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1194,6 +1082,7 @@
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontSize>8pt</FontSize>
+                                    <Format>N0</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1294,7 +1183,6 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1308,9 +1196,10 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSurface</DataSetName>
-            <Top>1.4in</Top>
+            <Top>1.8in</Top>
+            <Left>2.38in</Left>
             <Height>0.45in</Height>
-            <Width>5.75in</Width>
+            <Width>3.25in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -1319,11 +1208,45 @@
               <FontFamily>Verdana</FontFamily>
             </Style>
           </Tablix>
+          <Textbox Name="Textbox4">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Class " &amp; First(Fields!ISOClass.Value, "DataRoomDetail") &amp; " - " &amp; First(Fields!RoomDescription.Value, "DataRoomDetail") &amp; " - " &amp; "Monitored " &amp; IIF(Sum(Fields!MonitoringFrequency.Value, "DataRoomDetail") = 1, "Once", "Twice") &amp; " Per " &amp; First(Fields!MonitoringUnit.Value, "DataRoomDetail")</Value>
+                    <Style>
+                      <FontFamily>Verdana</FontFamily>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox4</rd:DefaultName>
+            <Top>0.11334in</Top>
+            <Height>0.25in</Height>
+            <Width>8in</Width>
+            <ZIndex>4</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
-        <Height>1.905in</Height>
+        <Height>4.25in</Height>
         <Style />
       </Body>
-      <Width>9.5in</Width>
+      <Width>8in</Width>
       <Page>
         <PageHeader>
           <Height>0.39583in</Height>
@@ -1337,10 +1260,10 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>="Hood Report " &amp; Parameters!HoodId.Value &amp; VBCRLF &amp; "Scheduled Date " &amp; FORMAT(Parameters!ScheduledDate.Value, "MM/dd/yyyy")</Value>
+                      <Value>="Room Report " &amp; Parameters!RoomId.Value &amp; 
+VBCRLF &amp; "Scheduled Date " &amp; FORMAT(Parameters!ScheduledDate.Value, "MM/dd/yyyy")</Value>
                       <Style>
                         <FontFamily>Verdana</FontFamily>
-                        <FontSize>12pt</FontSize>
                         <FontWeight>Bold</FontWeight>
                       </Style>
                     </TextRun>
@@ -1412,20 +1335,41 @@
     </ReportSection>
   </ReportSections>
   <ReportParameters>
-    <ReportParameter Name="HoodId">
+    <ReportParameter Name="RoomId">
       <DataType>String</DataType>
-      <Prompt>Hood Id</Prompt>
+      <Prompt>Select Room Id:</Prompt>
       <ValidValues>
         <DataSetReference>
-          <DataSetName>DataHoods</DataSetName>
-          <ValueField>HoodId</ValueField>
-          <LabelField>HoodId</LabelField>
+          <DataSetName>DataRooms</DataSetName>
+          <ValueField>RoomID</ValueField>
+          <LabelField>RoomID</LabelField>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
     <ReportParameter Name="ScheduledDate">
       <DataType>DateTime</DataType>
       <Prompt>Select Scheduled Date:</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="RoomStatus">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Room Status</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>=0</Value>
+            <Label>Operational</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>=1</Value>
+            <Label>At Rest</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
@@ -1434,14 +1378,19 @@
       <NumberOfRows>2</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>0</RowIndex>
-          <ParameterName>HoodId</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>0</RowIndex>
+          <ParameterName>RoomId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>0</RowIndex>
           <ParameterName>ScheduledDate</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>RoomStatus</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
