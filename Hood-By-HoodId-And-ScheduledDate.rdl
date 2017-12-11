@@ -185,7 +185,7 @@
                   <Width>0.75in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5in</Width>
+                  <Width>1in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.5in</Width>
@@ -799,9 +799,9 @@
             </TablixRowHierarchy>
             <DataSetName>Data</DataSetName>
             <Top>0.8in</Top>
-            <Left>0.38in</Left>
+            <Left>1.12in</Left>
             <Height>0.45in</Height>
-            <Width>7.25in</Width>
+            <Width>5.75in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
