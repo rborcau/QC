@@ -33,24 +33,51 @@
           <QueryParameter Name="@RId">
             <Value>=Parameters!RId.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Result">
+            <Value>=Parameters!Result.Value</Value>
+          </QueryParameter>
         </QueryParameters>
-        <CommandText>SELECT SiteId, 
-		CASE RoomStatus
-			WHEN 0 THEN 'Operational'
-			ELSE 'At Rest'
-		END AS RoomState,
-		CFU, Particulate05, Particulate5, 
-		CASE Result
-			WHEN 0 THEN 'Pass'
-			WHEN 1 THEN 'Alert'
-			WHEN 2 THEN 'Action'
-		END AS SampleResult,
-		CASE CollectionType
-			WHEN 0 THEN 'Initial'
-			ELSE 'Repeat'
-		END AS TypeOfCollection,
-		CollectionDate
-FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
+        <CommandText>IF @Result = 3
+	SELECT SiteId, 
+			CASE RoomStatus
+				WHEN 0 THEN 'Operational'
+				ELSE 'At Rest'
+			END AS RoomState,
+			CFU, Particulate05, Particulate5, 
+			CASE Result
+				WHEN 0 THEN 'Pass'
+				WHEN 1 THEN 'Alert'
+				WHEN 2 THEN 'Action'
+			END AS SampleResult,
+			CASE CollectionType
+				WHEN 0 THEN 'Initial'
+				ELSE 'Repeat'
+			END AS TypeOfCollection,
+			CollectionDate
+	FROM dbo.DataRoomAir 
+	WHERE RoomId = @RId 
+	ORDER BY CollectionDate;
+ELSE
+	SELECT SiteId, 
+			CASE RoomStatus
+				WHEN 0 THEN 'Operational'
+				ELSE 'At Rest'
+			END AS RoomState,
+			CFU, Particulate05, Particulate5, 
+			CASE Result
+				WHEN 0 THEN 'Pass'
+				WHEN 1 THEN 'Alert'
+				WHEN 2 THEN 'Action'
+			END AS SampleResult,
+			CASE CollectionType
+				WHEN 0 THEN 'Initial'
+				ELSE 'Repeat'
+			END AS TypeOfCollection,
+			CollectionDate
+	FROM dbo.DataRoomAir 
+	WHERE RoomId = @RId 
+	AND Result = @Result
+	ORDER BY CollectionDate;	</CommandText>
       </Query>
       <Fields>
         <Field Name="SiteId">
@@ -114,7 +141,7 @@ FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
                   <Width>1in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>1.2in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1in</Width>
@@ -203,6 +230,7 @@ FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
                             <TopBorder>
                               <Color>Black</Color>
                               <Style>Solid</Style>
+                              <Width>3pt</Width>
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
@@ -211,7 +239,6 @@ FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
                             </BottomBorder>
                             <LeftBorder>
                               <Color>White</Color>
-                              <Width>3pt</Width>
                             </LeftBorder>
                             <RightBorder>
                               <Color>White</Color>
@@ -430,7 +457,7 @@ FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Collection Date</Value>
+                                  <Value>Sample Date</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -520,6 +547,7 @@ FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -745,7 +773,9 @@ FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>CollectionDate</rd:DefaultName>
@@ -822,8 +852,9 @@ FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>RoomDetails</DataSetName>
+            <Left>0.22in</Left>
             <Height>0.45in</Height>
-            <Width>6.75in</Width>
+            <Width>6.95in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -862,9 +893,9 @@ FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>textbox1</rd:DefaultName>
-              <Left>3.125in</Left>
+              <Left>1.5in</Left>
               <Height>0.375in</Height>
-              <Width>2.5in</Width>
+              <Width>4.125in</Width>
               <Style>
                 <PaddingLeft>2pt</PaddingLeft>
                 <PaddingRight>2pt</PaddingRight>
@@ -913,73 +944,6 @@ FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
           </ReportItems>
           <Style />
         </PageHeader>
-        <PageFooter>
-          <Height>0.25in</Height>
-          <PrintOnFirstPage>true</PrintOnFirstPage>
-          <PrintOnLastPage>true</PrintOnLastPage>
-          <ReportItems>
-            <Textbox Name="textbox3">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Globals!PageNumber &amp; "/" &amp; Globals!TotalPages</Value>
-                      <Style>
-                        <FontFamily>Verdana</FontFamily>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>textbox3</rd:DefaultName>
-              <Left>6.375in</Left>
-              <Height>0.25in</Height>
-              <Width>1in</Width>
-              <Style>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="textbox4">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Globals!ReportName</Value>
-                      <Style>
-                        <FontFamily>Verdana</FontFamily>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Left</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <Height>0.25in</Height>
-              <Width>6.25in</Width>
-              <ZIndex>1</ZIndex>
-              <Style>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-          </ReportItems>
-          <Style />
-        </PageFooter>
         <LeftMargin>0.5in</LeftMargin>
         <RightMargin>0.5in</RightMargin>
         <TopMargin>0.5in</TopMargin>
@@ -1000,6 +964,35 @@ FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="Result">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>3</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Select By Result:</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>Pass</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>Alert</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>2</Value>
+            <Label>Action</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>3</Value>
+            <Label>All</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -1010,6 +1003,11 @@ FROM dbo.DataRoomAir WHERE RoomId = @RId ORDER BY CollectionDate;</CommandText>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>RId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>Result</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
