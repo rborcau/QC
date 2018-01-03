@@ -103,7 +103,7 @@
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
-        <CommandText>Get_Hood_Data_Surface_By_ScheduledDate</CommandText>
+        <CommandText>dbo.Get_Hood_Data_Surface_By_ScheduledDate</CommandText>
       </Query>
       <Fields>
         <Field Name="Id">
