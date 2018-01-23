@@ -19,12 +19,20 @@
   </DataSets>
   <Reports>
     <ProjectItem>
+      <Name>FillRoom-Employee-Data.rdl</Name>
+      <FullPath>FillRoom-Employee-Data.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>Gowning-Employee-Data.rdl</Name>
       <FullPath>Gowning-Employee-Data.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>Gowning-Qualified-Employees.rdl</Name>
       <FullPath>Gowning-Qualified-Employees.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Hood-By-HoodId-And-ScheduledDate.rdl</Name>
+      <FullPath>Hood-By-HoodId-And-ScheduledDate.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>L.rdl</Name>
@@ -63,12 +71,16 @@
       <FullPath>RoomByRoomIdAndDates.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>Hood-By-HoodId-And-ScheduledDate.rdl</Name>
-      <FullPath>Hood-By-HoodId-And-ScheduledDate.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>Room-By-RoomId-And-ScheduledDate.rdl</Name>
       <FullPath>Room-By-RoomId-And-ScheduledDate.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>FillRoom-Air-Data.rdl</Name>
+      <FullPath>FillRoom-Air-Data.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>FillRoom-Surface-Data.rdl</Name>
+      <FullPath>FillRoom-Surface-Data.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>
